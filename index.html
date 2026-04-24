@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avalio by Plectra.ai — Calculadora de Repago</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F0F4F8;color:#1E293B;min-height:100vh;}
+header{background:#0D1B3E;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+header .brand{color:#00C2CB;font-size:20px;font-weight:700;letter-spacing:1px;}
+header .sub{color:#94A3B8;font-size:12px;}
+.container{max-width:1040px;margin:0 auto;padding:28px 20px;}
+h1{font-size:24px;color:#0D1B3E;font-weight:700;margin-bottom:4px;}
+.subtitle{font-size:13px;color:#00C2CB;margin-bottom:28px;font-style:italic;}
+.sec{font-size:11px;color:#64748B;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin:0 0 10px;}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:20px 24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.sr{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.sr label{font-size:13px;color:#64748B;min-width:310px;}
+.sr input[type=range]{flex:1;accent-color:#00C2CB;}
+.sv{font-size:13px;font-weight:700;min-width:110px;text-align:right;color:#0D1B3E;}
+.sr-sm label{font-size:12px;color:#94A3B8;min-width:260px;}
+.sr-sm .sv{font-size:12px;min-width:80px;color:#00838A;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.metric{background:#F8FAFC;border-radius:10px;padding:14px;text-align:center;border:1px solid #E2E8F0;}
+.metric .ml{font-size:11px;color:#64748B;margin-bottom:4px;}
+.metric .mv{font-size:18px;font-weight:700;color:#0D1B3E;}
+.metric .ms{font-size:11px;color:#94A3B8;margin-top:3px;}
+.metric.teal{background:#E0FAFA;border-color:#00C2CB;} .metric.teal .mv{color:#00838A;}
+.metric.green{background:#D1FAE5;border-color:#10B981;} .metric.green .mv{color:#065F46;}
+.metric.amber{background:#FEF3C7;border-color:#F59E0B;} .metric.amber .mv{color:#92400E;}
+.metric.navy{background:#0D1B3E;border-color:#0D1B3E;} .metric.navy .ml{color:#94A3B8;} .metric.navy .mv{color:#fff;} .metric.navy .ms{color:#64748B;}
+.rb{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:8px;}
+.rb .l{color:#64748B;} .rb .v{font-weight:600;color:#0D1B3E;}
+.dv{border:none;border-top:1px solid #E2E8F0;margin:10px 0;}
+.tsm{font-size:14px;font-weight:700;color:#0D1B3E;margin-bottom:12px;}
+.tag{font-size:12px;padding:3px 10px;border-radius:6px;font-weight:600;display:inline-block;}
+.tag-g{background:#D1FAE5;color:#065F46;} .tag-a{background:#FEF3C7;color:#92400E;}
+.tag-t{background:#E0FAFA;color:#00838A;} .tag-i{background:#DBEAFE;color:#1E40AF;}
+.pbox{background:#0D1B3E;border-radius:12px;padding:22px 26px;display:flex;align-items:flex-start;gap:22px;margin-bottom:20px;}
+.pbox .bn{font-size:38px;font-weight:800;color:#fff;line-height:1;}
+.pbox .bl{font-size:11px;color:#94A3B8;margin-top:4px;}
+.pbox .det{flex:1;border-left:1px solid #1E3A5F;padding-left:20px;}
+.pbox .rb .l{color:#94A3B8;} .pbox .rb .v{color:#fff;} .pbox .dv{border-color:#1E3A5F;}
+.pbox p{font-size:13px;color:#94A3B8;margin-bottom:10px;line-height:1.6;}
+.mod-header{background:#0D1B3E;border-radius:10px 10px 0 0;padding:12px 18px;margin:-20px -24px 16px;}
+.mod-header h3{color:#00C2CB;font-size:14px;font-weight:700;margin-bottom:2px;}
+.mod-header p{color:#94A3B8;font-size:11px;}
+.mod-card{background:#fff;border:1.5px solid #00C2CB;border-radius:12px;padding:20px 24px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,194,203,.08);}
+.note{font-size:11px;color:#94A3B8;font-style:italic;margin-top:6px;line-height:1.5;}
+.divider-section{border:none;border-top:3px solid #0D1B3E;margin:32px 0 24px;}
+.liveness-box{background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:10px;padding:14px 18px;margin-bottom:18px;}
+.liveness-box .tsm{color:#92400E;font-size:13px;}
+.legal-box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:16px 20px;margin-top:8px;margin-bottom:18px;}
+.legal-box p{font-size:11px;color:#94A3B8;line-height:1.7;}
+.legal-box strong{color:#64748B;}
+.setup-banner{background:#0D1B3E;border-radius:10px;padding:14px 20px;margin-bottom:18px;display:flex;gap:24px;flex-wrap:wrap;}
+.setup-item{text-align:center;flex:1;}
+.setup-item .sl{font-size:11px;color:#94A3B8;margin-bottom:2px;}
+.setup-item .sv2{font-size:20px;font-weight:800;color:#00C2CB;}
+.setup-item .ss{font-size:11px;color:#64748B;margin-top:2px;}
+
+/* CUADRO FINAL 3 COLUMNAS */
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-radius:12px;overflow:hidden;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.10);}
+.sum-col{padding:20px;}
+.sum-col.costos{background:#0D1B3E;}
+.sum-col.ahorros{background:#92400E;}
+.sum-col.ingresos{background:#065F46;}
+.sum-col h3{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.15);}
+.sum-col.costos h3{color:#00C2CB;}
+.sum-col.ahorros h3{color:#FDE68A;}
+.sum-col.ingresos h3{color:#6EE7B7;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:7px;}
+.sum-row .sl{color:rgba(255,255,255,.6);}
+.sum-row .sv{font-weight:700;color:#fff;text-align:right;}
+.sum-div{border:none;border-top:1px solid rgba(255,255,255,.15);margin:10px 0;}
+.sum-total-l{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:3px;}
+.sum-total-v{font-size:22px;font-weight:800;color:#fff;margin-bottom:2px;}
+.sum-total-a{font-size:13px;font-weight:600;color:rgba(255,255,255,.8);}
+
+footer{text-align:center;padding:20px;font-size:11px;color:#94A3B8;border-top:1px solid #E2E8F0;margin-top:8px;line-height:1.8;}
+footer span{color:#00C2CB;font-weight:600;}
+@media(max-width:700px){
+  .g3,.g2,.g4,.summary-grid{grid-template-columns:1fr;}
+  .sr,.sr-sm{flex-wrap:wrap;} .sr label,.sr-sm label{min-width:100%;}
+  .pbox{flex-direction:column;} .pbox .det{border-left:none;padding-left:0;border-top:1px solid #1E3A5F;padding-top:14px;}
+  .setup-banner{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Calculadora IA — SGR</div>
+  <div class="sub">Herramienta de análisis · 2026</div>
+</header>
+
+<div class="container">
+  <h1>Calculadora de Repago — Avalio</h1>
+  <p class="subtitle">Ingresá los parámetros de tu SGR y mirá cuánto genera cada módulo.</p>
+
+  <!-- SETUP -->
+  <p class="sec">Investment Inicial — Setup Fees</p>
+  <div class="setup-banner">
+    <div class="setup-item"><div class="sl">Avalio Onboarding</div><div class="sv2">USD 15.000</div><div class="ss">Setup único · onboarding + configuración</div></div>
+    <div class="setup-item"><div class="sl">Campaign Manager — por módulo</div><div class="sv2">USD 3.500</div><div class="ss">Cada módulo contratado por separado</div></div>
+    <div class="setup-item"><div class="sl">Campaign Manager — pack 3 módulos</div><div class="sv2">USD 8.500</div><div class="ss">Ahorro de USD 2.000 vs individual</div></div>
+  </div>
+
+  <!-- PARAMETROS BASE -->
+  <p class="sec">📋 Parámetros Mensuales — Avalio Onboarding</p>
+  <div class="card">
+    <div class="sr"><label>Total de legajos que recibe la SGR por mes</label><input type="range" id="s_leg" min="1" max="500" step="1" value="50"><span class="sv" id="v_leg">50 legajos</span></div>
+    <div class="sr"><label>Tasa de conversión en avales aprobados</label><input type="range" id="s_conv" min="5" max="60" step="1" value="20"><span class="sv" id="v_conv">20%</span></div>
+    <div class="sr"><label>Ticket promedio del aval (USD)</label><input type="range" id="s_tick" min="14000" max="100000" step="1000" value="40000"><span class="sv" id="v_tick">USD 40.000</span></div>
+    <div class="sr"><label>Comisión SGR sobre monto avalado (%)</label><input type="range" id="s_com" min="1" max="4" step="0.25" value="2"><span class="sv" id="v_com">2,00%</span></div>
+    <div class="sr"><label>Costo total mensual del equipo en ARS (todos los roles que tocan legajos)</label><input type="range" id="s_sal" min="700000" max="20000000" step="100000" value="4500000"><span class="sv" id="v_sal">$ 4.500.000</span></div>
+    <div class="sr" style="margin-bottom:0;"><label>Tipo de cambio (ARS / USD)</label><input type="range" id="s_tc" min="1000" max="2500" step="50" value="1400"><span class="sv" id="v_tc">1.400</span></div>
+    <p class="note">El bot analiza el 100% de los legajos. Ticket mínimo USD 14.000 — máximo USD 100.000. Base de cálculo por persona: ARS 1.500.000/mes.</p>
+  </div>
+
+  <p class="sec">Avales y Volumen</p>
+  <div class="g4" id="g_avales"></div>
+
+  <p class="sec">Ahorro de Tiempo y Costo del Equipo</p>
+  <div class="card" id="c_tiempo"></div>
+
+  <p class="sec">Pricing Avalio Onboarding y Repago</p>
+  <div class="g2">
+    <div class="card" id="c_precio_base"></div>
+    <div class="card" id="c_repago_base"></div>
+  </div>
+  <div class="pbox" id="pbox_base"></div>
+
+  <!-- CAMPAIGN MANAGER -->
+  <hr class="divider-section">
+  <p class="sec">🚀 Avalio Campaign Manager — Parámetros</p>
+  <div class="card">
+    <div class="sr" style="margin-bottom:0;"><label>Contactos + Prospectos / Socios activos en la base de la SGR</label><input type="range" id="s_cont" min="0" max="5000" step="50" value="0"><span class="sv" id="v_cont" style="color:#00838A;">0 (inactivo)</span></div>
+    <p class="note">Arrancar en 0 excluye los módulos del resumen. Moverlo activa el cálculo para los 3 módulos · USD 0,25 por contacto/prospecto · Cada módulo tiene su propia tasa de conversión ajustable.</p>
+  </div>
+
+  <!-- MÓDULO 1 -->
+  <div class="mod-card">
+    <div class="mod-header"><h3>Módulo 1 — Prospecting Automático</h3><p>Scrapea pymes según criterios de la SGR · mailing automatizado · ingreso directo al flujo de análisis</p></div>
+    <div class="sr sr-sm" style="margin-bottom:14px;"><label>Tasa de conversión contactos → avales nuevos</label><input type="range" id="s_c1" min="0.5" max="10" step="0.5" value="2" style="accent-color:#00C2CB;"><span class="sv" id="v_c1" style="color:#00838A;">2,0%</span></div>
+    <div class="g3" id="g_m1"></div>
+    <div class="g2" style="margin-bottom:0;"><div id="c_precio_m1"></div><div id="c_repago_m1"></div></div>
+  </div>
+
+  <!-- MÓDULO 2 -->
+  <div class="mod-card">
+    <div class="mod-header"><h3>Módulo 2 — Campañas Segmentadas por Mail</h3><p>Reactiva pymes de la base existente · segmentación por perfil y comportamiento · respuestas automáticas</p></div>
+    <div class="sr sr-sm" style="margin-bottom:14px;"><label>Tasa de reactivación contactos → avales reactivados</label><input type="range" id="s_c2" min="0.5" max="10" step="0.5" value="1" style="accent-color:#00C2CB;"><span class="sv" id="v_c2" style="color:#00838A;">1,0%</span></div>
+    <div class="g3" id="g_m2"></div>
+    <div class="g2" style="margin-bottom:0;"><div id="c_precio_m2"></div><div id="c_repago_m2"></div></div>
+  </div>
+
+  <!-- MÓDULO 3 -->
+  <div class="mod-card">
+    <div class="mod-header"><h3>Módulo 3 — Notificaciones + Bot con Human in the Loop</h3><p>Vencimientos de cupos y certificados · respuestas automáticas · derivación al humano cuando es necesario</p></div>
+    <div class="sr sr-sm" style="margin-bottom:14px;"><label>Tasa de retención contactos → avales retenidos</label><input type="range" id="s_c3" min="0.1" max="5" step="0.1" value="0.5" style="accent-color:#00C2CB;"><span class="sv" id="v_c3" style="color:#00838A;">0,5%</span></div>
+    <div class="g3" id="g_m3"></div>
+    <div class="g2" style="margin-bottom:0;"><div id="c_precio_m3"></div><div id="c_repago_m3"></div></div>
+  </div>
+
+  <!-- LIVENESS -->
+  <div class="liveness-box">
+    <p class="tsm">⚡ Adicional Opcional — Liveness Check & Validación Biométrica</p>
+    <p style="font-size:13px;color:#92400E;margin:6px 0 8px;line-height:1.6;">Integración con RENAPER SID para validación biométrica facial y prueba de vida en tiempo real. Requiere convenio con RENAPER vía TAD.</p>
+    <div class="g3" style="margin-bottom:0;">
+      <div class="metric amber"><div class="ml">Costo bajo volumen</div><div class="mv">USD 0,50</div><div class="ms">hasta 35.000 consultas/mes</div></div>
+      <div class="metric amber"><div class="ml">Costo alto volumen</div><div class="mv">USD 0,10</div><div class="ms">más de 500.000 consultas/mes</div></div>
+      <div class="metric amber"><div class="ml">Proveedor recomendado</div><div class="mv">RENAPER SID</div><div class="ms">Motor NEC · Gateway VU Security</div></div>
+    </div>
+  </div>
+
+  <!-- RESUMEN FINAL 3 COLUMNAS -->
+  <hr class="divider-section">
+  <p class="sec">Resumen Total — Costos · Ahorros · Ingresos Netos</p>
+  <div class="summary-grid" id="summary_grid"></div>
+
+  <!-- LEGAL -->
+  <div class="legal-box">
+    <p><strong>Aviso Legal y Confidencialidad.</strong> La presente calculadora y su contenido constituyen información confidencial y propietaria del emisor. Su uso está restringido exclusivamente a los destinatarios autorizados. Las proyecciones y estimaciones contenidas en esta herramienta tienen carácter meramente ilustrativo y no constituyen una oferta vinculante, garantía de resultados ni asesoramiento financiero, legal o impositivo.</p>
+    <p style="margin-top:6px;">Los valores proyectados se basan en supuestos y parámetros configurables que pueden no reflejar la situación particular de cada SGR. Los resultados reales pueden diferir materialmente de las estimaciones aquí presentadas. <strong>El proveedor no asume responsabilidad alguna por decisiones tomadas en base a esta herramienta.</strong></p>
+    <p style="margin-top:6px;">La integración con RENAPER SID, Equifax u otros proveedores de validación de identidad está sujeta a los términos, condiciones y aprobaciones de cada organismo. Los costos de dichas integraciones son estimativos y pueden variar. © 2026 — Todos los derechos reservados.</p>
+  </div>
+</div>
+
+<footer>
+  <span>Calculadora IA para SGRs</span><br>
+  Herramienta de análisis de impacto · 2026
+</footer>
+
+<script>
+const F=n=>Math.round(n).toLocaleString('es-AR');
+const U=n=>'USD '+F(n);
+const A=n=>'$ '+F(n);
+function g(id){return document.getElementById(id);}
+function m(label,val,sub,cls=''){return`<div class="metric ${cls}"><div class="ml">${label}</div><div class="mv">${val}</div>${sub?`<div class="ms">${sub}</div>`:''}</div>`;}
+function r(l,v){return`<div class="rb"><span class="l">${l}</span><span class="v">${v}</span></div>`;}
+function sr(l,v){return`<div class="sum-row"><span class="sl">${l}</span><span class="sv">${v}</span></div>`;}
+
+const sliders=[
+  {s:'s_leg', v:'v_leg', f:n=>n+' legajos'},
+  {s:'s_conv',v:'v_conv',f:n=>n+'%'},
+  {s:'s_tick',v:'v_tick',f:n=>'USD '+F(n)},
+  {s:'s_com', v:'v_com', f:n=>n.toFixed(2).replace('.',',')+' %'},
+  {s:'s_sal', v:'v_sal', f:n=>'$ '+F(n)},
+  {s:'s_tc',  v:'v_tc',  f:n=>F(n)},
+  {s:'s_cont',v:'v_cont',f:n=>n===0?'0 (inactivo)':n+' contactos / socios'},
+  {s:'s_c1',  v:'v_c1',  f:n=>n.toFixed(1).replace('.',',')+' %'},
+  {s:'s_c2',  v:'v_c2',  f:n=>n.toFixed(1).replace('.',',')+' %'},
+  {s:'s_c3',  v:'v_c3',  f:n=>n.toFixed(1).replace('.',',')+' %'},
+];
+sliders.forEach(({s,v,f})=>g(s).addEventListener('input',()=>{g(v).textContent=f(+g(s).value);calc();}));
+
+function manBase(av){return av<=25?350:av<=45?500:av<=100?600:800;}
+function manCM(cont){
+  if(cont===0) return 0;
+  if(cont<=1500) return 500;
+  if(cont<=3000) return 850;
+  if(cont<=5000) return 1250;
+  return 1250;
+}
+function manCMLabel(cont){
+  if(cont===0)    return '— inactivo';
+  if(cont<=1500)  return 'USD 500/mes';
+  if(cont<=3000)  return 'USD 850/mes';
+  if(cont<=5000)  return 'USD 1.250/mes';
+  return 'Consultar';
+}
+function personas(sal){return Math.max(1,Math.round(sal/1500000));}
+
+function calcModulo(id, cont, tasa, tick, com, tipo, labelFn){
+  if(cont===0){
+    g('g_'+id).innerHTML=`<div class="metric" style="grid-column:1/-1;opacity:.4"><div class="ml">Módulo inactivo</div><div class="mv">—</div><div class="ms">Mover el slider de contactos para activar</div></div>`;
+    g('c_precio_'+id).innerHTML=`<p class="tsm" style="opacity:.5">Costo — inactivo</p><p class="note">Activar moviendo el slider de contactos + prospectos.</p>`;
+    g('c_repago_'+id).innerHTML=`<p class="tsm" style="opacity:.5">Repago — inactivo</p>`;
+    return {costo:0, ing:0, net:0};
+  }
+  const man   = manCM(cont);
+  const varC  = cont * 0.25;
+  const costo = man + varC;
+  const avNuevos = Math.round(cont * tasa/100);
+  const ing   = avNuevos * tick * com;
+  const net   = ing - costo;
+  const roi   = costo>0?((net/costo)*100).toFixed(0):'—';
+
+  const {l1,l2,l3} = labelFn(cont, avNuevos, ing);
+  g('g_'+id).innerHTML = l1+l2+l3;
+
+  g('c_precio_'+id).innerHTML=`
+    <p class="tsm">Costo Módulo</p>
+    ${r('Abono mensual ('+manCMLabel(cont)+')',U(man)+'/mes')}
+    ${r('USD 0,25 × '+F(cont)+' '+tipo,U(varC)+'/mes')}
+    <hr class="dv">
+    ${r('Total mensual','<strong>'+U(costo)+'</strong>/mes')}
+    ${r('Setup fee módulo','USD 3.500 (único)')}
+  `;
+  g('c_repago_'+id).innerHTML=`
+    <p class="tsm">Repago Módulo</p>
+    ${r('Ingreso / retención SGR',U(ing)+'/mes')}
+    ${r('Costo módulo','− '+U(costo)+'/mes')}
+    <hr class="dv">
+    ${r('Beneficio neto','<span class="tag '+(net>0?'tag-g':'tag-a')+'">'+U(net)+'/mes</span>')}
+    ${r('ROI',roi+'%')}
+  `;
+  return {costo, ing, net};
+}
+
+function calc(){
+  const leg   = +g('s_leg').value;
+  const conv  = +g('s_conv').value/100;
+  const tick  = +g('s_tick').value;
+  const com   = +g('s_com').value/100;
+  const sal   = +g('s_sal').value;
+  const tc    = +g('s_tc').value;
+  const cont  = +g('s_cont').value;
+  const c1    = +g('s_c1').value;
+  const c2    = +g('s_c2').value;
+  const c3    = +g('s_c3').value;
+
+  const salU   = sal/tc;
+  const pers   = personas(sal);
+  const hTotal = pers*176;
+  const hLib   = hTotal*0.30;
+  const ahorroU= salU*0.30;
+  const ahorroA= sal*0.30;
+
+  const avales = Math.round(leg*conv);
+  const volF1  = avales*tick;
+  const ingSGR = volF1*com;
+  const feeAnal= leg*5;
+  const comPlat= volF1*0.005;
+  const manB   = manBase(avales);
+  const costoB = feeAnal+comPlat+manB;
+  const netB   = ingSGR+ahorroU-costoB;
+  const pbB    = (15000/costoB).toFixed(1);
+
+  g('g_avales').innerHTML=
+    m('Legajos analizados',F(leg)+'/mes','100% pasan por Avalio','teal')+
+    m('Avales otorgados',F(avales)+'/mes',Math.round(conv*100)+'% conversión','green')+
+    m('Volumen avalado',U(volF1)+'/mes','a '+U(tick)+' promedio')+
+    m('Ingreso SGR',U(ingSGR)+'/mes',com*100+'% sobre volumen','navy');
+
+  g('c_tiempo').innerHTML=`
+    <p class="tsm">El bot libera el 30% del tiempo de todo el equipo que toca legajos</p>
+    <div class="g3">
+      ${m('Personas equivalentes',pers+' persona'+(pers>1?'s':''),'base ARS 1.500.000 / persona')}
+      ${m('Horas totales del equipo',F(hTotal)+' hs/mes',pers+' × 176 hs')}
+      ${m('Horas liberadas (30%)',F(hLib)+' hs/mes','para prospectar y crecer','green')}
+    </div>
+    <hr class="dv">
+    ${r('Costo total equipo / mes',U(salU)+' · '+A(sal))}
+    ${r('Ahorro mensual reaprovechable (30%)','<span class="tag tag-g">'+U(ahorroU)+' · '+A(ahorroA)+'</span>')}
+    <p class="note" style="margin-top:8px;">Ese tiempo se reinvierte en prospectar nuevos clientes, preparar comités y atender más legajos.</p>
+  `;
+
+  g('c_precio_base').innerHTML=`
+    <p class="tsm">Pricing Avalio Onboarding</p>
+    ${r('Fee análisis ('+leg+' × USD 5)',U(feeAnal)+'/mes')}
+    ${r('Comisión 0,50% sobre avales',U(comPlat)+'/mes')}
+    ${r('Mantenimiento (tramo '+avales+' avales)',U(manB)+'/mes')}
+    <hr class="dv">
+    ${r('Total mensual','<strong>'+U(costoB)+'</strong>/mes')}
+    ${r('Setup fee único','USD 15.000')}
+    ${r('Payback setup fee','<span class="tag tag-g">'+pbB+' meses</span>')}
+  `;
+
+  g('c_repago_base').innerHTML=`
+    <p class="tsm">Repago Avalio Onboarding</p>
+    ${r('Ingreso SGR por avales',U(ingSGR)+'/mes')}
+    ${r('Ahorro equipo reaprovechable',U(ahorroU)+'/mes')}
+    ${r('Costo Avalio Onboarding','− '+U(costoB)+'/mes')}
+    <hr class="dv">
+    ${r('Beneficio neto SGR','<span class="tag '+(netB>0?'tag-g':'tag-a')+'">'+U(netB)+'/mes</span>')}
+    ${r('ROI sobre costo',((netB/costoB)*100).toFixed(0)+'%')}
+  `;
+
+  g('pbox_base').innerHTML=`
+    <div style="min-width:110px;text-align:center;">
+      <div class="bn">${pbB}</div><div class="bl">meses payback<br>setup Onboarding</div>
+    </div>
+    <div class="det">
+      <p>${F(leg)} legajos/mes → <strong style="color:#fff;">${F(avales)} avales</strong> → <strong style="color:#fff;">${U(volF1)}</strong> volumen avalado.
+      Equipo de ${pers} persona${pers>1?'s':''} libera <strong style="color:#00C2CB;">${F(hLib)} hs/mes</strong> y <strong style="color:#00C2CB;">${U(ahorroU)}/mes</strong> reaprovechable.</p>
+      <hr class="dv">
+      ${r('Beneficio neto mensual','<span class="tag '+(netB>0?'tag-g':'tag-a')+'">'+U(netB)+'/mes</span>')}
+      ${r('Ahorro anual reaprovechable','<span class="tag tag-g">'+U(ahorroU*12)+'/año</span>')}
+    </div>
+  `;
+
+  // Módulos Campaign Manager
+  const r1 = calcModulo('m1', cont, c1, tick, com, 'contactos', (c,av,ing)=>({
+    l1: m('Prospectos contactados',F(c)+'/mes','scrapping automático','teal'),
+    l2: m('Nuevos avales ('+c1+'%)',F(av)+'/mes','ingreso nuevo','green'),
+    l3: m('Ingreso nuevo SGR',U(ing)+'/mes','avales generados','navy')
+  }));
+  const r2 = calcModulo('m2', cont, c2, tick, com, 'contactos', (c,av,ing)=>({
+    l1: m('Contactos alcanzados',F(c)+'/mes','campañas segmentadas','teal'),
+    l2: m('Avales reactivados ('+c2+'%)',F(av)+'/mes','reactivación','amber'),
+    l3: m('Ingreso reactivado',U(ing)+'/mes','avales recuperados','green')
+  }));
+  const r3 = calcModulo('m3', cont, c3, tick, com, 'contactos/socios', (c,av,ing)=>({
+    l1: m('Socios notificados',F(c)+'/mes','cupos y certificados','teal'),
+    l2: m('Avales retenidos ('+c3+'%)',F(av)+'/mes','vencimientos evitados','amber'),
+    l3: m('Ingreso retenido',U(ing)+'/mes','avales no perdidos','green')
+  }));
+
+  // RESUMEN FINAL 3 COLUMNAS
+  const modActivosCM = (cont>0?1:0)*3;
+  const setupTotal   = 15000 + (cont>0 ? 8500 : 0);
+  const costoMensual = costoB + r1.costo + r2.costo + r3.costo;
+  const ingMensual   = ingSGR + r1.ing + r2.ing + r3.ing;
+  const netMensual   = netB + r1.net + r2.net + r3.net;
+
+  g('summary_grid').innerHTML=`
+    <div class="sum-col costos">
+      <h3>💰 Costos</h3>
+      <div class="sum-div"></div>
+      <div class="sum-row"><span class="sl">Setup Avalio Onboarding</span><span class="sv">USD 15.000</span></div>
+      ${cont>0?`<div class="sum-row"><span class="sl">Setup Campaign Manager (3 módulos)</span><span class="sv">USD 8.500</span></div>`:''}
+      <div class="sum-row"><span class="sl">Setup total invertido</span><span class="sv">USD ${F(setupTotal)}</span></div>
+      <div class="sum-div"></div>
+      <div class="sum-row"><span class="sl">Avalio Onboarding / mes</span><span class="sv">${U(costoB)}</span></div>
+      ${cont>0?`<div class="sum-row"><span class="sl">Campaign Manager / mes</span><span class="sv">${U(r1.costo+r2.costo+r3.costo)}</span></div>`:''}
+      <div class="sum-div"></div>
+      <div class="sum-total-l">Costo mensual total</div>
+      <div class="sum-total-v">${U(costoMensual)}</div>
+      <div class="sum-total-a">${U(costoMensual*12)} / año</div>
+    </div>
+
+    <div class="sum-col ahorros">
+      <h3>⏱ Ahorros</h3>
+      <div class="sum-div"></div>
+      <div class="sum-row"><span class="sl">Personas equivalentes</span><span class="sv">${pers} persona${pers>1?'s':''}</span></div>
+      <div class="sum-row"><span class="sl">Horas totales equipo / mes</span><span class="sv">${F(hTotal)} hs</span></div>
+      <div class="sum-row"><span class="sl">Horas liberadas (30%)</span><span class="sv">${F(hLib)} hs / mes</span></div>
+      <div class="sum-div"></div>
+      <div class="sum-row"><span class="sl">Costo equipo / mes</span><span class="sv">${U(salU)}</span></div>
+      <div class="sum-row"><span class="sl">Ahorro mensual (30%)</span><span class="sv">${U(ahorroU)}</span></div>
+      <div class="sum-div"></div>
+      <div class="sum-total-l">Ahorro anual reaprovechable</div>
+      <div class="sum-total-v">${U(ahorroU*12)}</div>
+      <div class="sum-total-a">${F(hLib*12)} hs / año liberadas</div>
+    </div>
+
+    <div class="sum-col ingresos">
+      <h3>📈 Ingresos Netos</h3>
+      <div class="sum-div"></div>
+      <div class="sum-row"><span class="sl">Avalio Onboarding</span><span class="sv">${U(netB)} / mes</span></div>
+      ${cont>0?`<div class="sum-row"><span class="sl">Prospecting</span><span class="sv">${U(r1.net)} / mes</span></div>`:''}
+      ${cont>0?`<div class="sum-row"><span class="sl">Campañas Mail</span><span class="sv">${U(r2.net)} / mes</span></div>`:''}
+      ${cont>0?`<div class="sum-row"><span class="sl">Notificaciones + Bot</span><span class="sv">${U(r3.net)} / mes</span></div>`:''}
+      <div class="sum-div"></div>
+      <div class="sum-row"><span class="sl">Ingreso bruto SGR / mes</span><span class="sv">${U(ingMensual)}</span></div>
+      <div class="sum-row"><span class="sl">Costo plataforma / mes</span><span class="sv">− ${U(costoMensual)}</span></div>
+      <div class="sum-div"></div>
+      <div class="sum-total-l">Beneficio neto mensual</div>
+      <div class="sum-total-v">${U(netMensual)}</div>
+      <div class="sum-total-a">${U(netMensual*12)} / año</div>
+    </div>
+  `;
+}
+calc();
+</script>
+</body>
+</html>
